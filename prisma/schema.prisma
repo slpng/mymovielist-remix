@@ -1,0 +1,125 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  library      Library?
+}
+
+model Library {
+  id      Int     @id @default(autoincrement())
+  entries Entry[]
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int     @unique
+}
+
+enum TitleType {
+  movie
+  show
+}
+
+model Title {
+  id      Int       @id @default(autoincrement())
+  type    TitleType
+  tmdbId  String
+  name    String
+  movie   Movie?
+  show    Show?
+  entries Entry[]
+
+  @@unique([type, tmdbId])
+}
+
+model Movie {
+  title   Title @relation(fields: [titleId], references: [id])
+  titleId Int   @id
+}
+
+model Show {
+  title   Title    @relation(fields: [titleId], references: [id])
+  titleId Int      @id
+  seasons Season[]
+}
+
+model Season {
+  id           Int       @id @default(autoincrement())
+  seasonNumber Int
+  name         String
+  show         Show      @relation(fields: [showId], references: [titleId])
+  showId       Int
+  episodes     Episode[]
+
+  @@unique([showId, seasonNumber])
+}
+
+model Episode {
+  id            Int                 @id @default(autoincrement())
+  episodeNumber Int
+  name          String
+  season        Season              @relation(fields: [seasonId], references: [id])
+  seasonId      Int
+  entries       EpisodesInEntries[]
+
+  @@unique([seasonId, episodeNumber])
+}
+
+enum Status {
+  watching
+  completed
+  on_hold
+  dropped
+  plan_to_watch
+}
+
+enum EntryType {
+  movie
+  show
+}
+
+model Entry {
+  id             Int         @id @default(autoincrement())
+  type           EntryType
+  title          Title       @relation(fields: [titleId], references: [id])
+  titleId        Int         @unique
+  library        Library     @relation(fields: [libraryId], references: [id])
+  libraryId      Int
+  status         Status
+  score          Int
+  rewatchedTimes Int
+  movieEntry     MovieEntry?
+  showEntry      ShowEntry?
+
+  @@unique([titleId, libraryId])
+}
+
+model MovieEntry {
+  entry   Entry @relation(fields: [entryId], references: [id])
+  entryId Int   @id
+}
+
+model ShowEntry {
+  entry      Entry               @relation(fields: [entryId], references: [id])
+  entryId    Int                 @id
+  episodes   EpisodesInEntries[]
+  rewatching Boolean
+}
+
+model EpisodesInEntries {
+  entry     ShowEntry @relation(fields: [entryId], references: [entryId])
+  entryId   Int
+  episode   Episode   @relation(fields: [episodeId], references: [id])
+  episodeId Int
+  rewatched Boolean
+
+  @@id([entryId, episodeId])
+}
