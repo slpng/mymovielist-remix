@@ -34,9 +34,9 @@ export const action: ActionFunction = async ({ request }) => {
 
 
     return json<ActionData>({
-        tvs,
-        apiTvSeries: apiTvSeries?.results?.filter(
-            r => !tvs.some(tv => tv.tmdbId === r.id)
+        tvs: storedShows,
+        apiTvSeries: apiShows?.results?.filter(
+            r => !storedShows.some(show => show.tmdbId === r.id?.toString())
         ),
     })
 }
@@ -88,7 +88,7 @@ export default () => {
                             <div>
                                 <Link
                                     className="text-blue-500"
-                                    to={`/import/tmdb/${tv.id}`}
+                                    to={`/import/show/${tv.id}`}
                                 >
                                     {tv.name} ({tv.id})
                                 </Link>
