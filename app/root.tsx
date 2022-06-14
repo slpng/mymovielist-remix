@@ -6,7 +6,6 @@ import { json, LinksFunction, LoaderFunction } from "remix"
 import Document from "~/components/Document"
 import Header from "~/components/Header"
 import { getUser } from "~/utils/session.server"
-import { useRef } from "react"
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }]
@@ -18,7 +17,6 @@ interface LoaderData {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request)
-  useRef<HTMLDivElement>(null)
   return json<LoaderData>({ user })
 }
 
