@@ -1,8 +1,8 @@
 import { Title } from '@prisma/client'
-import { MovieDb } from 'moviedb-promise'
 import { TvResult } from 'moviedb-promise/dist/request-types'
 import { ActionFunction, Form, json, Link, useActionData } from 'remix'
 import { prisma } from '~/utils/db.server'
+import tmdb from "~/utils/tmdb.server"
 
 interface ActionData {
     tvs: Title[]
@@ -10,13 +10,10 @@ interface ActionData {
 }
 
 export const action: ActionFunction = async ({ request }) => {
-    if (!process.env.TMDB_API_KEY) {
-        throw new Response("API key doesn't exist", { status: 500 })
-    }
-
     const form = await request.formData()
     const query = form.get('query')?.toString()
     const production = form.get('production')?.toString()
+
     if (!query) {
         return json({ formError: 'Search query cannot be empty' }, 400)
     }
@@ -31,8 +28,7 @@ export const action: ActionFunction = async ({ request }) => {
         },
     })
     
-    const moviedb = new MovieDb(process.env.TMDB_API_KEY)
-    const apiTvSeries = await moviedb.searchTv({ query })
+    const apiShows = await tmdb.searchTv({ query })
 
     return json<ActionData>({
         tvs,
