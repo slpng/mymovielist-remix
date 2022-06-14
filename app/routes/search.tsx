@@ -21,14 +21,17 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ formError: 'Invalid production status' }, 400)
     }
 
-    const tvs = await prisma.title.findMany({
+    const storedShows = await prisma.title.findMany({
         where: {
-            name: { contains: query, mode: 'insensitive' },
-            ...(production !== 'any' && { inProduction: production === 'production' ? true : false })
-        },
+            type: 'show',
+            name: {
+                contains: query,
+                mode: 'insensitive',
+            }
+        }
     })
-    
     const apiShows = await tmdb.searchTv({ query })
+
 
     return json<ActionData>({
         tvs,
