@@ -48,7 +48,7 @@ export default () => {
     return (
         <AuthForm formError={action?.formError}>
             <AuthInput
-                type="username"
+                type="text"
                 name="username"
                 placeholder="Username"
                 ariaInvalid={Boolean(action?.fieldErrors?.username)}
