@@ -19,7 +19,7 @@ export const validateEmail = (email: string) => {
 }
 
 export const validatePassword = (password: string) => {
-  if (typeof password !== 'string' || password.length < 6) {
+  if (typeof password !== 'string' || password.length < 3) {
     return 'Password must be at least 6 characters long'
   }
 }
