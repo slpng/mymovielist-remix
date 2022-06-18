@@ -81,14 +81,8 @@ enum Status {
   plan_to_watch
 }
 
-enum EntryType {
-  movie
-  show
-}
-
 model Entry {
   id             Int         @id @default(autoincrement())
-  type           EntryType
   title          Title       @relation(fields: [titleId], references: [id])
   titleId        Int         @unique
   library        Library     @relation(fields: [libraryId], references: [id])
