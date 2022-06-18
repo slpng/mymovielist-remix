@@ -90,26 +90,14 @@ model Entry {
   status         Status
   score          Int
   rewatchedTimes Int
-  movieEntry     MovieEntry?
-  showEntry      ShowEntry?
+  rewatching     Boolean             @default(false)
+  episodes       EpisodesInEntries[]
 
   @@unique([titleId, libraryId])
 }
 
-model MovieEntry {
-  entry   Entry @relation(fields: [entryId], references: [id])
-  entryId Int   @id
-}
-
-model ShowEntry {
-  entry      Entry               @relation(fields: [entryId], references: [id])
-  entryId    Int                 @id
-  episodes   EpisodesInEntries[]
-  rewatching Boolean
-}
-
 model EpisodesInEntries {
-  entry     ShowEntry @relation(fields: [entryId], references: [entryId])
+  entry     Entry   @relation(fields: [entryId], references: [id])
   entryId   Int
   episode   Episode   @relation(fields: [episodeId], references: [id])
   episodeId Int
