@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from "remix"
+import { json, LoaderFunction, redirect } from "remix"
 import { prisma } from "~/utils/db.server"
 import tmdb from "~/utils/tmdb.server"
 
@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       }
     })
 
-    return json({ movie })
+    return redirect(`/title/${movie.id}`)
   } catch (e) {
     return json({ e })
   }

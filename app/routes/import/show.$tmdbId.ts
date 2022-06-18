@@ -1,4 +1,4 @@
-import { json, LoaderFunction } from "remix"
+import { json, LoaderFunction, redirect } from "remix"
 import { prisma } from "~/utils/db.server"
 import tmdb from "~/utils/tmdb.server"
 
@@ -90,14 +90,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       })
     })
 
-    return json(
-      await prisma.title.findUnique({
-        where: { id: show.id },
-        include: {
-          show: { include: { seasons: { include: { episodes: true } } } }
-        }
-      })
-    )
+    return redirect(`/title/${show.id}`)
   } catch (e) {
     return json({ e })
   }
