@@ -84,8 +84,8 @@ enum Status {
 model Entry {
   id             Int         @id @default(autoincrement())
   title          Title       @relation(fields: [titleId], references: [id])
-  titleId        Int         @unique
   library        Library     @relation(fields: [libraryId], references: [id])
+  titleId        Int
   libraryId      Int
   status         Status
   score          Int?
