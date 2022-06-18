@@ -88,7 +88,7 @@ model Entry {
   library        Library     @relation(fields: [libraryId], references: [id])
   libraryId      Int
   status         Status
-  score          Int
+  score          Int?
   rewatchedTimes Int
   rewatching     Boolean             @default(false)
   episodes       EpisodesInEntries[]
