@@ -82,10 +82,10 @@ enum Status {
 }
 
 model Entry {
-  id             Int         @id @default(autoincrement())
-  title          Title       @relation(fields: [titleId], references: [id])
-  library        Library     @relation(fields: [libraryId], references: [id])
+  id             Int                 @id @default(autoincrement())
+  title          Title               @relation(fields: [titleId], references: [id])
   titleId        Int
+  library        Library             @relation(fields: [libraryId], references: [id])
   libraryId      Int
   status         Status
   score          Int?
@@ -99,7 +99,7 @@ model Entry {
 model EpisodesInEntries {
   entry     Entry   @relation(fields: [entryId], references: [id])
   entryId   Int
-  episode   Episode   @relation(fields: [episodeId], references: [id])
+  episode   Episode @relation(fields: [episodeId], references: [id])
   episodeId Int
   rewatched Boolean
 
