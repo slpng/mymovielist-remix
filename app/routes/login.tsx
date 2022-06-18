@@ -11,7 +11,7 @@ import {
 export const action: ActionFunction = async ({ request }) => {
     const form = await request.formData()
 
-    const redirectTo = '/'
+    const redirectTo = '/home'
     const username = form.get('username')
     const password = form.get('password')
 
