@@ -1,5 +1,5 @@
-import { useOutletContext } from 'remix'
-import { ContextData } from '../$username'
+import { useOutletContext } from "remix"
+import { ContextData } from "../$username"
 
 export default () => {
   const { user } = useOutletContext<ContextData>()

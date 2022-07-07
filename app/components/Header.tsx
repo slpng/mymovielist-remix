@@ -53,7 +53,9 @@ export default ({ user }: Props) => {
   return (
     <nav className="flex items-center gap-5">
       {links.map((link) => (
-        <NavLink key={link.path} to={link.path}>{link.text}</NavLink>
+        <NavLink key={link.path} to={link.path}>
+          {link.text}
+        </NavLink>
       ))}
     </nav>
   )

@@ -1,10 +1,10 @@
-import { json } from 'remix'
+import { json } from "remix"
 
 export const badRequest = (data: object) => json(data, { status: 400 })
 
 export const validateUsername = (username: string) => {
-  if (typeof username !== 'string' || username.length < 2) {
-    return 'Username must be at least 2 characters long'
+  if (typeof username !== "string" || username.length < 2) {
+    return "Username must be at least 2 characters long"
   }
 }
 
@@ -13,13 +13,13 @@ export const validateEmail = (email: string) => {
   const regex =
     /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
-  if (typeof email !== 'string' || !regex.test(email)) {
-    return 'Invalid email address'
+  if (typeof email !== "string" || !regex.test(email)) {
+    return "Invalid email address"
   }
 }
 
 export const validatePassword = (password: string) => {
-  if (typeof password !== 'string' || password.length < 3) {
-    return 'Password must be at least 6 characters long'
+  if (typeof password !== "string" || password.length < 3) {
+    return "Password must be at least 6 characters long"
   }
 }
